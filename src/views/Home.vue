@@ -164,7 +164,7 @@ export default {
 </script>
 <style scoped>
 div.v-card.projCard {
-  background: linear-gradient(157deg, #f0f3f5 50%, #d9dcdd 50%);
+  background: linear-gradient(157deg, #f0f3f5 50%, #9bb4c1 50.2%);
   min-height: 500px;
 }
 div.item-card {
