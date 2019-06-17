@@ -8,29 +8,26 @@
             <v-divider style="margin: 0 auto; width: 90%; margin-bottom: 20px;"></v-divider>
           </div>
 
-          <v-card-title
-            primary-title
+          <v-list
+            two-line
+            class="pa-2 mt-2 item-card"
             v-for="(project, index) in projectIdeas"
             :key="index"
-            class="pa-2"
+            hover
           >
-            <v-list two-line class="pa-0 item-card">
-              <v-card hover class="item-card">
-                <template>
-                  <v-list-tile>
-                    <v-list-tile-avatar>
-                      <v-icon medium color="black">assignment</v-icon>
-                    </v-list-tile-avatar>
+            <template class="pa-2">
+              <v-list-tile>
+                <v-list-tile-avatar>
+                  <v-icon medium color="black">assignment</v-icon>
+                </v-list-tile-avatar>
 
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{project.name}}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{project.description}}</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </template>
-              </v-card>
-            </v-list>
-          </v-card-title>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{project.name}}</v-list-tile-title>
+                  <v-list-tile-sub-title>{{project.description}}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-list>
         </v-card>
       </v-flex>
 
@@ -169,9 +166,8 @@ div.v-card.projCard {
 }
 div.item-card {
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.5);
-  max-height: 80px;
-  width: 450px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 90%;
   margin: 0 auto;
 }
 </style>
