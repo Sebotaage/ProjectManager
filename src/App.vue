@@ -1,18 +1,22 @@
 <template>
   <v-app>
-    <transition name="fade" mode="out-in">
+    <Menu></Menu>
+    <v-content>
       <router-view></router-view>
-    </transition>
+    </v-content>
   </v-app>
 </template>
 
 <script>
+import Menu from "@/components/Menu";
+
 export default {
   name: "App",
+  components: {
+    Menu
+  },
   data() {
-    return {
-      //
-    };
+    return {};
   }
 };
 </script>
@@ -24,16 +28,7 @@ export default {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition-duration: 0.2s;
-  transition-property: opacity;
-  transition-timing-function: ease;
-}
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
+  font-family: Avro;
 }
 </style>
 

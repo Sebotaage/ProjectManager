@@ -16,7 +16,9 @@
             hover
           >
             <template class="pa-2">
-              <v-list-tile>
+              <v-list-tile
+                @click="$router.push({ name: 'ProjectView', params: { name: project.name } })"
+              >
                 <v-list-tile-avatar>
                   <v-icon medium color="black">assignment</v-icon>
                 </v-list-tile-avatar>
@@ -38,29 +40,28 @@
             <v-divider style="margin: 0 auto; width: 90%; margin-bottom: 20px;"></v-divider>
           </div>
 
-          <v-card-title
-            primary-title
+          <v-list
+            two-line
+            class="pa-2 mt-2 item-card"
             v-for="(project, index) in currentProjects"
             :key="index"
-            class="pa-2"
+            hover
           >
-            <v-list two-line class="pa-0 item-card">
-              <v-card hover class="item-card">
-                <template>
-                  <v-list-tile>
-                    <v-list-tile-avatar>
-                      <v-icon medium color="black">assignment</v-icon>
-                    </v-list-tile-avatar>
+            <template class="pa-2">
+              <v-list-tile
+                @click="$router.push({ name: 'ProjectView', params: { name: project.name } })"
+              >
+                <v-list-tile-avatar>
+                  <v-icon medium color="black">assignment</v-icon>
+                </v-list-tile-avatar>
 
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{project.name}}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{project.description}}</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </template>
-              </v-card>
-            </v-list>
-          </v-card-title>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{project.name}}</v-list-tile-title>
+                  <v-list-tile-sub-title>{{project.description}}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-list>
         </v-card>
       </v-flex>
 
@@ -71,29 +72,28 @@
             <v-divider style="margin: 0 auto; width: 90%; margin-bottom: 20px;"></v-divider>
           </div>
 
-          <v-card-title
-            primary-title
+          <v-list
+            two-line
+            class="pa-2 mt-2 item-card"
             v-for="(project, index) in launchedProjects"
             :key="index"
-            class="pa-2"
+            hover
           >
-            <v-list two-line class="pa-0 item-card">
-              <v-card hover class="item-card">
-                <template>
-                  <v-list-tile>
-                    <v-list-tile-avatar>
-                      <v-icon medium color="black">assignment</v-icon>
-                    </v-list-tile-avatar>
+            <template class="pa-2">
+              <v-list-tile
+                @click="$router.push({ name: 'ProjectView', params: { name: project.name } })"
+              >
+                <v-list-tile-avatar>
+                  <v-icon medium color="black">assignment</v-icon>
+                </v-list-tile-avatar>
 
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{project.name}}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{project.description}}</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </template>
-              </v-card>
-            </v-list>
-          </v-card-title>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{project.name}}</v-list-tile-title>
+                  <v-list-tile-sub-title>{{project.description}}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-list>
         </v-card>
       </v-flex>
     </v-layout>
@@ -101,68 +101,47 @@
 </template>
 
 <script>
+import firebase from "firebase";
+import db from "../js/firebase.js";
+
 export default {
   data() {
     return {
-      projectIdeas: [
-        {
-          name: "Todo-app",
-          description: "An app to set up and complete your todos"
-        },
-        {
-          name: "Recipe-Grocery-App",
-          description:
-            "Save your recipes, add them to your grocery-list whenever you head to the store to get quick access to the ingredients needed"
-        }
-      ],
-      currentProjects: [
-        {
-          name: "Todo-app",
-          description: "An app to set up and complete your todos"
-        },
-        {
-          name: "Recipe-Grocery-App",
-          description:
-            "Save your recipes, add them to your grocery-list whenever you head to the store to get quick access to the ingredients needed"
-        }
-      ],
-      launchedProjects: [
-        {
-          name: "Todo-app",
-          description: "An app to set up and complete your todos"
-        },
-        {
-          name: "Recipe-Grocery-App",
-          description:
-            "Save your recipes, add them to your grocery-list whenever you head to the store to get quick access to the ingredients needed"
-        },
-        {
-          name: "Todo-app",
-          description: "An app to set up and complete your todos"
-        },
-        {
-          name: "Recipe-Grocery-App",
-          description:
-            "Save your recipes, add them to your grocery-list whenever you head to the store to get quick access to the ingredients needed"
-        },
-        {
-          name: "Todo-app",
-          description: "An app to set up and complete your todos"
-        },
-        {
-          name: "Recipe-Grocery-App",
-          description:
-            "Save your recipes, add them to your grocery-list whenever you head to the store to get quick access to the ingredients needed"
-        }
-      ]
+      projectIdeas: [],
+      currentProjects: [],
+      launchedProjects: []
     };
+  },
+  methods: {
+    getAllProjects() {
+      db.collection("Projects")
+        .get()
+        .then(items => {
+          items.forEach(item => {
+            const project = item.data();
+            const x = project.stage;
+            if (x === "projectIdea") {
+              this.projectIdeas.push(project);
+            } else if (x === "currentProject") {
+              this.currentProjects.push(project);
+            } else if (x === "launchedProject") {
+              this.launchedProjects.push(project);
+            }
+          });
+        });
+    }
+  },
+  created() {
+    this.getAllProjects();
   }
 };
 </script>
 <style scoped>
 div.v-card.projCard {
   background: linear-gradient(157deg, #f0f3f5 50%, #9bb4c1 50.2%);
-  min-height: 500px;
+  min-height: 300px;
+  max-height: 400px;
+  overflow: scroll;
 }
 div.item-card {
   border-radius: 5px;
